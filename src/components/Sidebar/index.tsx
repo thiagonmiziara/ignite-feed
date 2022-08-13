@@ -1,5 +1,5 @@
+import { PencilLine } from "phosphor-react";
 import styles from "./Sidebar.module.css";
-import codeImg from "../../assets/code.jpg";
 
 export const Sidebar = () => {
   return (
@@ -10,12 +10,19 @@ export const Sidebar = () => {
         alt='Imagem de códigos de uma linguagem de programação'
       />
       <div className={styles.profile}>
+        <img
+          className={styles.avatar}
+          src='https://avatars.githubusercontent.com/u/67029929?v=4'
+        />
         <strong>Thiago Miziara</strong>
         <span>Web Developer</span>
       </div>
 
       <footer>
-        <a href='#'>Editar seu perfil</a>
+        <a href='#'>
+          <PencilLine size={20} />
+          Editar seu perfil
+        </a>
       </footer>
     </aside>
   );
