@@ -21,18 +21,19 @@ export const Post = () => {
       </header>
 
       <div className={styles.content}>
-        <p>Fala galera</p>
+        <p>Fala galera 👋</p>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi nihil
           reiciendis veniam architecto, nam nulla laborum laboriosam!
         </p>
 
         <p>
-          <a href='#'>thiago.developer/doctorcare</a>
+          👉 <a href='#'>thiago.developer/doctorcare</a>
         </p>
 
         <p>
-          <a href='#'>#novoprojeto #nlw #rocketseat</a>{" "}
+          <a href='#'>#novoprojeto</a> <a href='#'> #nlw </a>
+          <a href='#'> #rocketseat</a>
         </p>
       </div>
     </article>
