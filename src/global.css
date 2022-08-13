@@ -8,8 +8,13 @@
   --gray-800: #202024;
   --gray-900: #121214;
 
-  --blue-300: rgb(122, 229, 235);
-  --blue-500: rgb(0, 228, 245);
+  --blue-300: rgb(0, 228, 245);
+  --blue-500: rgb(2, 195, 209);
+}
+
+:focus {
+  outline: transparent;
+  box-shadow: 0 0 0 2px var(--blue-500);
 }
 
 * {
