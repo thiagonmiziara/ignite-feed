@@ -1,40 +1,65 @@
+import {
+  formattedDateTitle,
+  publishedDateRelativeToNow,
+} from "../../utils/date";
 import { Avatar } from "../Avatar";
 import { Comment } from "../Comment";
 import styles from "./Post.module.css";
 
-export const Post = () => {
+type TAuthor = {
+  avatarUrl: string;
+  name: string;
+  role: string;
+};
+
+type TContent = {
+  type: string;
+  content: string;
+};
+
+interface IPostProps {
+  author: TAuthor;
+  publishedAt: Date;
+  content: TContent[];
+}
+
+export const Post = ({ author, publishedAt, content }: IPostProps) => {
+  const contentInfo = (content: TContent[]) => {
+    return content.map((item) => {
+      switch (item.type) {
+        case "paragraph":
+          return <p key={item.content.length}>{item.content}</p>;
+        case "link":
+          return (
+            <p key={item.content.length}>
+              <a href='#'>{item.content}</a>
+            </p>
+          );
+        default:
+      }
+    });
+  };
+
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <Avatar src='https://avatars.githubusercontent.com/u/67029929?v=4' />
+          <Avatar src={author.avatarUrl} />
           <div className={styles.authorInfo}>
-            <strong>Thiago Nunes</strong>
-            <span>Web Developer</span>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
           </div>
         </div>
 
-        <time title='11 de maio às 08:00' dateTime='2022-05-11 8:00:00'>
-          Plicado há 1h
+        <time
+          title={formattedDateTitle(publishedAt)}
+          dateTime={publishedAt.toISOString()}
+        >
+          {publishedDateRelativeToNow(publishedAt)}
         </time>
       </header>
 
-      <div className={styles.content}>
-        <p>Fala galera 👋</p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi nihil
-          reiciendis veniam architecto, nam nulla laborum laboriosam!
-        </p>
-
-        <p>
-          👉 <a href='#'>thiago.developer/doctorcare</a>
-        </p>
-
-        <p>
-          <a href='#'>#novoprojeto</a> <a href='#'> #nlw </a>
-          <a href='#'> #rocketseat</a>
-        </p>
-      </div>
+      <div className={styles.content}>{contentInfo(content)}</div>
 
       <form className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>
