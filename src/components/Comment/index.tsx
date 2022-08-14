@@ -1,5 +1,6 @@
 import { ThumbsUp, Trash } from 'phosphor-react'
 import { Avatar } from '../Avatar'
+import { useComments } from '../hooks/useComments'
 import styles from './Comment.module.css'
 
 interface ICommentProps {
@@ -7,6 +8,13 @@ interface ICommentProps {
 }
 
 export const Comment = ({ content }: ICommentProps) => {
+  const { deleteComment } = useComments()
+
+  const handleDeleteComment = () => {
+    console.log(content)
+    deleteComment(content)
+  }
+
   return (
     <div className={styles.comment}>
       <Avatar hasBorder={false} src="https://avatars.githubusercontent.com/u/67029929?v=4" />
@@ -20,12 +28,12 @@ export const Comment = ({ content }: ICommentProps) => {
               </time>
             </div>
 
-            <button title="Deletar comentário">
+            <button onClick={handleDeleteComment} title="Deletar comentário">
               <Trash size={24} />
             </button>
           </header>
 
-          <p>{content} 👏 👏</p>
+          <p>{content}👏</p>
         </div>
 
         <footer>

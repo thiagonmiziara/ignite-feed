@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { formattedDateTitle, publishedDateRelativeToNow } from '../../utils/date'
 import { Avatar } from '../Avatar'
 import { Comment } from '../Comment'
+import { useComments } from '../hooks/useComments'
 import styles from './Post.module.css'
 
 type TAuthor = {
@@ -13,6 +14,7 @@ type TAuthor = {
 type TContent = {
   type: string
   content: string
+  id: number
 }
 
 interface IPostProps {
@@ -22,33 +24,22 @@ interface IPostProps {
 }
 
 export const Post = ({ author, publishedAt, content }: IPostProps) => {
-  const [comments, setComments] = useState(['Primeiro comentário'])
-  const [newComment, setNewComment] = useState('')
+  const { initialComments, newComment, newCommentChange, handleCreateNewComment } = useComments()
 
   const contentInfo = (content: TContent[]) => {
     return content.map(item => {
       switch (item.type) {
         case 'paragraph':
-          return <p key={item.content.length}>{item.content}</p>
+          return <p key={item.content}>{item.content}</p>
         case 'link':
           return (
-            <p key={item.content.length}>
+            <p key={item.content}>
               <a href="#">{item.content}</a>
             </p>
           )
         default:
       }
     })
-  }
-
-  const handleCreateNewComment = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setComments([...comments, newComment])
-    setNewComment('')
-  }
-
-  const newCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewComment(event.target.value)
   }
 
   return (
@@ -85,8 +76,8 @@ export const Post = ({ author, publishedAt, content }: IPostProps) => {
       </form>
 
       <div className={styles.commentList}>
-        {comments.map(comment => (
-          <Comment key={`${comment.length + 1}`} content={comment} />
+        {initialComments.map(comment => (
+          <Comment key={comment} content={comment} />
         ))}
       </div>
     </article>
