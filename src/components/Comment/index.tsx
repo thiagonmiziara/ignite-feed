@@ -1,18 +1,16 @@
 import { ThumbsUp, Trash } from 'phosphor-react'
 import { Avatar } from '../Avatar'
-import { useComments } from '../hooks/useComments'
+
 import styles from './Comment.module.css'
 
 interface ICommentProps {
   content: string
+  onDeleteComment: (comment: string) => void
 }
 
-export const Comment = ({ content }: ICommentProps) => {
-  const { deleteComment } = useComments()
-
+export const Comment = ({ content, onDeleteComment }: ICommentProps) => {
   const handleDeleteComment = () => {
-    console.log(content)
-    deleteComment(content)
+    onDeleteComment(content)
   }
 
   return (

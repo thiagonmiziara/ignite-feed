@@ -24,7 +24,20 @@ interface IPostProps {
 }
 
 export const Post = ({ author, publishedAt, content }: IPostProps) => {
-  const { initialComments, newComment, newCommentChange, handleCreateNewComment } = useComments()
+  const { initialComments, newComment, newCommentChange, setNewComment } = useComments()
+
+  const [comments, setComments] = useState([...initialComments])
+
+  const onSubmitNewComment = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setComments([...comments, newComment])
+    setNewComment('')
+  }
+
+  const onDeleteComment = (comment: string) => {
+    const commentsFiltered = comments.filter(item => item !== comment)
+    setComments(commentsFiltered)
+  }
 
   const contentInfo = (content: TContent[]) => {
     return content.map(item => {
@@ -60,7 +73,7 @@ export const Post = ({ author, publishedAt, content }: IPostProps) => {
 
       <div className={styles.content}>{contentInfo(content)}</div>
 
-      <form onSubmit={event => handleCreateNewComment(event)} className={styles.commentForm}>
+      <form onSubmit={event => onSubmitNewComment(event)} className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>
 
         <textarea
@@ -76,8 +89,8 @@ export const Post = ({ author, publishedAt, content }: IPostProps) => {
       </form>
 
       <div className={styles.commentList}>
-        {initialComments.map(comment => (
-          <Comment key={comment} content={comment} />
+        {comments.map(comment => (
+          <Comment key={comment} content={comment} onDeleteComment={onDeleteComment} />
         ))}
       </div>
     </article>
