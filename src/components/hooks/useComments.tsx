@@ -20,9 +20,11 @@ interface IPostProps {
 interface IComment {
   initialComments: string[]
   newComment: string
-  newCommentChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
   setNewComment: React.Dispatch<React.SetStateAction<string>>
   posts: IPostProps[]
+  isDisabled: boolean
+  newCommentChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
+  handleNewCommentInvalid: (event: React.FormEvent<HTMLTextAreaElement>) => void
 }
 
 const CommentContext = createContext<IComment>({} as IComment)
@@ -72,8 +74,15 @@ export function CommentProvider({ children }: { children: ReactNode }) {
   const [newComment, setNewComment] = useState('')
 
   const newCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    event.currentTarget.setCustomValidity('')
     setNewComment(event.target.value)
   }
+
+  const handleNewCommentInvalid = (event: React.FormEvent<HTMLTextAreaElement>) => {
+    event.currentTarget.setCustomValidity('Esse campo é obrigatório!')
+  }
+
+  const isDisabled = newComment.length === 0
 
   return (
     <CommentContext.Provider
@@ -83,6 +92,8 @@ export function CommentProvider({ children }: { children: ReactNode }) {
         newCommentChange,
         setNewComment,
         posts,
+        handleNewCommentInvalid,
+        isDisabled,
       }}
     >
       {children}

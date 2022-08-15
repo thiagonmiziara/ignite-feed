@@ -24,7 +24,14 @@ interface IPostProps {
 }
 
 export const Post = ({ author, publishedAt, content }: IPostProps) => {
-  const { initialComments, newComment, newCommentChange, setNewComment } = useComments()
+  const {
+    initialComments,
+    newComment,
+    newCommentChange,
+    setNewComment,
+    handleNewCommentInvalid,
+    isDisabled,
+  } = useComments()
 
   const [comments, setComments] = useState([...initialComments])
 
@@ -35,8 +42,8 @@ export const Post = ({ author, publishedAt, content }: IPostProps) => {
   }
 
   const onDeleteComment = (comment: string) => {
-    const commentsFiltered = comments.filter(item => item !== comment)
-    setComments(commentsFiltered)
+    const commentsWithoutDeleteOne = comments.filter(item => item !== comment)
+    setComments(commentsWithoutDeleteOne)
   }
 
   const contentInfo = (content: TContent[]) => {
@@ -81,10 +88,14 @@ export const Post = ({ author, publishedAt, content }: IPostProps) => {
           placeholder="Deixe seu comentário"
           value={newComment}
           onChange={event => newCommentChange(event)}
+          onInvalid={event => handleNewCommentInvalid(event)}
+          required
         />
 
         <footer>
-          <button type="submit">Publicar</button>
+          <button type="submit" disabled={isDisabled}>
+            Publicar
+          </button>
         </footer>
       </form>
 
