@@ -27,7 +27,7 @@
     "@vitest/coverage-c8": "^0.22.0",
     "@vitest/ui": "latest",
     "jsdom": "latest",
-    "vite": "latest",
-    "vitest": "latest"
+    "vite": "^3.0.9",
+    "vitest": "^0.22.1"
   }
 }
